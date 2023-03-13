@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/axios@latest"></script>
+  <link rel="stylesheet" href="/style.css">
+  <title>Count</title>
+</head>
+<body>
+  <h1><span id="count"></span> users indexed</h1>
+  <p>updates every 500 ms</p>
+  <script>
+    setInterval(async () => {
+      const { data: res } = await axios.get('/count');
+      const span = document.getElementById('count');
+      span.innerHTML = res.count;
+    }, 500);
+  </script>
+</body>
+</html>
