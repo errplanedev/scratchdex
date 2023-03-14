@@ -26,7 +26,7 @@ app.get('/users/:user', async (req, res, next) => {
   if (!user) {
     res.status(404).json({ message: 'User not found, indexing...' });
     try {
-      const user = await (await axios.get(`https://proxy.errplane.workers.dev?url=https://api.scratch.mit.edu/users/${username}`));
+      const user = await (await axios.get(`https://api.scratch.mit.edu/users/${username}`));
       if(user.data.code == 'NotFound') {
         console.log(`${username} not found.`);
       } else {
@@ -44,7 +44,7 @@ app.get('/users/:user', async (req, res, next) => {
     }
   } else {
     const { data: ocular } = await axios.get(`https://my-ocular.jeffalo.net/api/user/${username}`);
-    const { data: scratch } = await axios.get(`https://proxy.errplane.workers.dev?url=https://api.scratch.mit.edu/users/${username}`);
+    const { data: scratch } = await axios.get(`https://api.scratch.mit.edu/users/${username}`);
     res.send({ ...user, ocular: { status: ocular.status, color: ocular.color }, about: scratch.profile.bio, wiwo: scratch.profile.status, country: scratch.profile.country, pfp: `${req.protocol}://${req.get('host')}/pfp/${username}` })
   }
 });
@@ -63,7 +63,7 @@ app.get('/users/:user/', async (req, res) => {
 
 app.get('/pfp/:user', async (req, res) => {
   const { user: username } = req.params;
-  const { data: user } = await axios.get(`https://proxy.errplane.workers.dev?url=https://api.scratch.mit.edu/users/${username}`);
+  const { data: user } = await axios.get(`https://api.scratch.mit.edu/users/${username}`);
   res.redirect(user.profile.images['90x90']);
 });
 
