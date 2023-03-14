@@ -16,7 +16,7 @@ async function getMostPopular() {
 }
 
 async function getFollowers(user: string, limit: number = 40) {
-  const { data: users } = await axios.get(`https://api.scratch.mit.edu/users/${user}/followers?limit=${limit}&offset=0`);
+  const { data: users } = await axios.get(`https://proxy.errplane.workers.dev?url=https://api.scratch.mit.edu/users/${user}/followers?limit=${limit}&offset=0`);
   return parseUsers(users);
 }
 

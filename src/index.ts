@@ -26,7 +26,7 @@ app.get('/users/:user', async (req, res, next) => {
   if (!user) {
     res.status(404).json({ message: 'User not found, indexing...' });
     try {
-      const user = await (await axios.get(`https://api.scratch.mit.edu/users/${username}`));
+      const user = await (await axios.get(`https://proxy.errplane.workers.dev?url=https://api.scratch.mit.edu/users/${username}`));
       if(user.data.code == 'NotFound') {
         console.log(`${username} not found.`);
       } else {
@@ -44,8 +44,8 @@ app.get('/users/:user', async (req, res, next) => {
     }
   } else {
     const { data: ocular } = await axios.get(`https://my-ocular.jeffalo.net/api/user/${username}`);
-    const { data: scratch } = await axios.get(`https://api.scratch.mit.edu/users/${username}`);
-    res.send({ ...user, ocular: { status: ocular.status, color: ocular.color }, about: scratch.profile.bio, wiwo: scratch.profile.status, country: scratch.profile.country, pfps: scratch.profile.images })
+    const { data: scratch } = await axios.get(`https://proxy.errplane.workers.dev?url=https://api.scratch.mit.edu/users/${username}`);
+    res.send({ ...user, ocular: { status: ocular.status, color: ocular.color }, about: scratch.profile.bio, wiwo: scratch.profile.status, country: scratch.profile.country, pfp: `${req.protocol}://${req.get('host')}/pfp/${username}` })
   }
 });
 
@@ -53,12 +53,18 @@ app.get('/users/:user/', async (req, res) => {
   const { user: username } = req.params;
   try {
     const { data: user } = await axios.get(`${req.protocol}://${req.get('host')}/users/${username}`);
-    res.render('user', { username: user.username, id: user.id, indexedAt: user.indexedAt, color: user.ocular.color, status: user.ocular.status, about: user.about, wiwo: user.wiwo, pfps: user.pfps, country: user.country });
+    res.render('user', { username: user.username, id: user.id, indexedAt: user.indexedAt, color: user.ocular.color, status: user.ocular.status, about: user.about, wiwo: user.wiwo, pfp: user.pfp, country: user.country });
   } catch (error) {
     if (error.response && error.response.status === 404) {
       res.render('error', { message: 'User not found, indexing...', username: username });
     }
   }
+});
+
+app.get('/pfp/:user', async (req, res) => {
+  const { user: username } = req.params;
+  const { data: user } = await axios.get(`https://proxy.errplane.workers.dev?url=https://api.scratch.mit.edu/users/${username}`);
+  res.redirect(user.profile.images['90x90']);
 });
 
 app.get('/count', async (req, res, next) => {

@@ -4,6 +4,8 @@ An api for indexing and getting the data of Scratch users.
 ## Endpoints
 `GET /users/:user` - Display a user's data.
 
+`GET /pfp/:user` - Display a user's profile picture.
+
 `GET /count` - Get how many users are indexed.
 
 `GET /users/:user/` - Display a user's data in HTML.
