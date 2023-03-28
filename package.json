@@ -1,5 +1,5 @@
 {
-  "name": "indexed",
+  "name": "scratchdex",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,8 @@
     "build": "tsc"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "errplane",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.0",
