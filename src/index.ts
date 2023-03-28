@@ -12,6 +12,10 @@ setInterval(() => {
   index();
 }, 2000)
 
+app.get('/', (req, res) => {
+  res.json({ name: 'scratchdex', by: 'errplane' });
+});
+
 app.get('/users/:user', async (req, res, next) => {
   if (req.path.endsWith('/')) {
     return next();
