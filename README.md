@@ -1,4 +1,5 @@
 # Scratchdex
+## dont use please, use errplanedev/scratch-indexer if you really want to 
 An api for indexing and getting the data of Scratch users.
 
 ## Endpoints
